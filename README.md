@@ -1,9 +1,19 @@
 
 
-Clone repository, bisa di download .zip atau dengan perintah git clone seperti ini
-Pada cmd, pindah ke folder prognet8 contohnya
-cd c:/xampp/htdocs/prognet8
-lalu instal composer
+Clone repository, bisa di download .zip atau dengan perintah git clone
+
+DATABASE CONFIGURATION
+______________________
+
+1. Buat database di phpMyAdmin
+2. Buka file .env dan ubah DB_Name sesuai database yang dibuat
+
+APPLICATION CONFIGURATION
+_________________________
+1. Install Composer 
+2. Run command "php artisan migrate"
+3. Run Command "php artisan db:seed"
+4. Run Local Server
 
 composer install
 Edit pengaturan database di file .env, juga masukkan perintah ini untuk mengisi APP_KEY
