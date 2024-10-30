@@ -1,0 +1,40 @@
+/* variable from index.css */
+
+.logo {
+    color: var(--primaryyColor);
+    font-size: 2.5rem;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+.logo i {
+    color: var(--green2);
+}
+
+.custom-border-width {
+    border-width: 1.3px !important;
+}
+
+.custom-border-color {
+    border-color: var(--primaryyColor) !important;
+}
+
+.custom-text-primary {
+    color: var(--primaryyColor);
+}
+
+.custom-text-green2 {
+    color: var(--green2);
+}
+
+.custom-text-light-gray {
+    color: var(--light-gray);
+}
+
+.bg-light-gray {
+    background-color: var(--light-gray);
+}
+
+.rounded-1rem {
+    border-radius: 1rem;
+}
