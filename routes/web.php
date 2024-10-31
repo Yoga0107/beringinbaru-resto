@@ -8,6 +8,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\JadorMenuController;
 use App\Http\Controllers\OrderController;
@@ -108,6 +109,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('Add/Cart/{product}', [CartController::class, 'addMenuToCart'])->name('cart.add');
     Route::put('update/{item}/cart', [CartController::class, 'updateItemInCart'])->name('cart.update');
     Route::delete('remove/{item}/cart', [CartController::class, 'removeItemFromCart'])->name('cart.remove');
+
+    // checkout routes
+    Route::get("/checkout", [CheckoutController::class, "index"])->name("checkout.index");
 
     //Payment with Paypal Routes
     Route::get("/handel-payment", [PaypalPaymentController::class, "handelPayment"])->name("make.payment");
