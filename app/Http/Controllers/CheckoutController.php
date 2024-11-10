@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Darryldecode\Cart\Cart;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
@@ -13,10 +14,12 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        $userId = auth()->user()->id;
+        $user = auth()->user();
+        $cartContent = \Cart::session($user->id)->getContent();
         return view('checkout.index')->with([
-            // 'items' => $cartContent,
-            // 'itemsCount' => $cartContent->count(), // qte
+            'username' => $user->name,
+            'items' => $cartContent,
+            'itemsCount' => $cartContent->count(), // qte
         ]);
     }
 

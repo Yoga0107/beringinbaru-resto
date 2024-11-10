@@ -10,7 +10,12 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "laravel-mix": "^6.0.6"
+        "browser-sync": "^3.0.3",
+        "browser-sync-webpack-plugin": "^2.3.0",
+        "laravel-mix": "^6.0.6",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.80.6",
+        "sass-loader": "^12.1.0"
     },
     "dependencies": {
         "nodemon": "^3.0.2"

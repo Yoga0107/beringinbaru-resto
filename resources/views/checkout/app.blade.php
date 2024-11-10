@@ -42,7 +42,8 @@
     <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 
     {{-- my script file --}}
-    <script src="{{ asset('js/loader.js') }}"></script>
+    {{-- <script src="{{ asset('js/loader.js') }}"></script> --}}
+    <script src="{{ asset('js/pages/checkout.js') }}"></script>
 
     <!-- icons ankhdm b ionicons link dsite : https://ionic.io/ionicons/v4 -->
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>

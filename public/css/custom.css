@@ -1,5 +1,9 @@
 /* variable from index.css */
 
+.pointer {
+    cursor: pointer;
+}
+
 .logo {
     color: var(--primaryyColor);
     font-size: 2.5rem;
@@ -35,6 +39,17 @@
     background-color: var(--light-gray);
 }
 
+.bg-custom-primary {
+    background-color: var(--primaryyColor);
+}
+
 .rounded-1rem {
     border-radius: 1rem;
+}
+
+/* from app.css */
+.btn-primary-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
