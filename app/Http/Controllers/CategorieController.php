@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Middleware\authAdmin;
 use App\Http\Requests\StoreCategorieRequest;
 use App\Http\Requests\UpdateCategorieRequest;
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class CategorieController extends Controller
 {
@@ -63,11 +64,11 @@ class CategorieController extends Controller
      */
     public function store(StoreCategorieRequest $request)
     {
-        //
         $request->validate([
-            'title' => 'required|max:20|min:3',
+            'title' => 'required|max:20|min:3|unique:categories,title',
             "Visibility" => 'required',
         ]);
+
         Categorie::create([
             'title' => $request->title,
             'Visibility' => $request->Visibility,
