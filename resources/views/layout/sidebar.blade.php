@@ -72,15 +72,14 @@
                     <span class="title">Orders</span>
                 </a>
             </li>
-            {{-- <li class="custom-dropdown">
+            <li class="custom-dropdown">
                 <a href="#">
                     <span class="icon"><ion-icon name="pin"></ion-icon></span>
-                    <span class="title">Shipping Address</span>
+                    <span class="title">Shipping</span>
                 </a>
-                <div class="custom-dropdown-item"><a class="" href="/kelurahan"><span>Kelurahan</span></a></div>
-                <div class="custom-dropdown-item"><a class="" href="/kecamatan"><span>Kecamatan</span></a></div>
-                <div class="custom-dropdown-item"><a class="" href="/jalan"><span>Jalan</span></a></div>
-            </li> --}}
+                <div class="custom-dropdown-item"><a class="" href="/address"><span>Address</span></a></div>
+                <div class="custom-dropdown-item"><a class="" href="/cost"><span>Cost</span></a></div>
+            </li>
             <li>
                 <form action="{{ route('user.logout') }}" method="post">
                     @csrf
