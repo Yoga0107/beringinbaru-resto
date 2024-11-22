@@ -96,7 +96,7 @@ class MenuController extends Controller
     {
         //
         $request->validate([
-            'title' => 'required|min:3|max:20',
+            'title' => 'required|min:3|max:20|unique:menus,title',
             'description' => 'required|min:5',
             'pric' => 'numeric|Nullable',
             'old_price' => 'numeric|Nullable',
