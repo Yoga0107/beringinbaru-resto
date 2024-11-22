@@ -51,5 +51,16 @@ class AdminSeeder extends Seeder
             'remember_token' => Str::random(10),
             'admin' => 1,
         ]);
+        User::create([
+
+            'name' => 'user',
+            'FullName' => 'user',
+            'email' => 'user@gmail.com',
+            'ville' => 'user',
+            'email_verified_at' => now(),
+            'password' => Hash::make("user"), // password
+            'remember_token' => Str::random(10),
+            'admin' => 0,
+        ]);
     }
 }

@@ -111,7 +111,7 @@ class CategorieController extends Controller
     {
         //
         $request->validate([
-            'title' => 'required|min:3|max:20'
+            'title' => 'required|min:3|max:20|unique:categories,title'
         ]);
         $categorie = Categorie::where('id', $id)->first();
         $categorie->update([

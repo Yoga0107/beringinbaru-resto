@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Categorie;
+use App\Models\Cost;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CategorieSeeder extends Seeder
+class CostSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,10 +15,8 @@ class CategorieSeeder extends Seeder
      */
     public function run()
     {
-        Categorie::create([
-
-            'title' => 'makanan pedas',
-            'visibility' => 1,
+        Cost::create([
+            'cost' => 15000,
         ]);
     }
 }

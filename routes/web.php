@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\APIAddressController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CostController;
 use App\Http\Controllers\JadorMenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaypalPaymentController;
@@ -79,7 +81,13 @@ Route::group(['middleware' => 'auth'], function () {
     // Unarchive review route
     Route::put('Unarchive/{id}/review', [CommentController::class, 'Unarchive'])->name('review.unarchive');
 
+    /*************** shipping *****************************/
+    Route::resource('/address', AddressController::class);
 
+    // resource cost
+    Route::resource('/cost', CostController::class);
+    // search cost
+    Route::post('/cost/search', [CostController::class, 'index'])->name('cost-search.index');
 
 
 
