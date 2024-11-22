@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\APIAddressController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
@@ -112,6 +113,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     // checkout routes
     Route::get("/checkout", [CheckoutController::class, "index"])->name("checkout.index");
+
+    // GET API ALAMAT
+    Route::get("/kelurahan/{idKecamatan}", [APIAddressController::class, "getKelurahan"])->name("address.kelurahan");
 
     //Payment with Paypal Routes
     Route::get("/handel-payment", [PaypalPaymentController::class, "handelPayment"])->name("make.payment");

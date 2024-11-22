@@ -2,6 +2,8 @@ let radioButtons = document.getElementsByName("paymentMethod");
 let nomorRekening = document.getElementById("nomorRekening");
 let pesanCOD = document.getElementById("pesanCOD");
 let btnPayment = document.getElementById("btnPayment");
+// let select = document.getElementsByClassName("selectpicker");
+// select.selectPicker();
 
 function paymentMethod() {
     // cek radio button yg statusnya checked

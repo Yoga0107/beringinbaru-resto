@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Darryldecode\Cart\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CheckoutController extends Controller
 {
@@ -16,10 +17,13 @@ class CheckoutController extends Controller
     {
         $user = auth()->user();
         $cartContent = \Cart::session($user->id)->getContent();
+        $kecamatan = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/districts/1278.json');
+
         return view('checkout.index')->with([
             'username' => $user->name,
             'items' => $cartContent,
             'itemsCount' => $cartContent->count(), // qte
+            'kecamatan' => json_decode($kecamatan, true),
         ]);
     }
 

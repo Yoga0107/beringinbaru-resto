@@ -8,15 +8,52 @@
                 <div class="logo"><i class="fas fa-utensils"></i>BERINGIN BARU</div>
                 <p class="mt-5 fs-5">Customer Information</p>
                 <div class="row p-3 border rounded-3 fs-5 custom-border-width">
-                    <div class="col">
-                        <p class="m-0">Nama</p>
-                        <p class="m-0">Alamat</p>
-                        <p class="m-0">Ongkir</p>
+                    <div class="row">
+                        <div class="col">
+                            <p class="m-0">Nama</p>
+                        </div>
+                        <div class="col">
+                            <p class="m-0">{{ $username }}</p>
+                        </div>
                     </div>
-                    <div class="col m-auto">
-                        <p class="m-0">{{ $username }}</p>
-                        <p class="m-0">KEMAYORAN</p>
-                        <p class="m-0">Rp. {{ number_format(Cart::getSubTotal(), 0, '', '.') }}</p>
+                    <div class="row">
+                        <div class="col">
+                            <p class="m-0">Alamat</p>
+                        </div>
+                        <div class="col">
+                            <div class="custom-select fs-5">
+                                <span>Kecamatan :</span>
+                                <select id="SelectKecamatan" class="selectKecamatan fs-5" data-live-search="true" title="kecamatan">
+                                    @foreach ($kecamatan as $k)
+                                        <option data-tokens={{ $k['name'] }} class="fs-5" value={{ $k['id'] }}>{{ $k['name'] }}</option>
+                                    @endforeach
+                                    {{-- <option data-tokens="mustard" class="fs-5">Burger, Shake and a Smile</option>
+                                    <option data-tokens="frosting" class="fs-5">Sugar, Spice and all things nice</option> --}}
+                                </select>
+                            </div>
+                            <div id="ContainerSelectKelurahan" class="custom-select fs-5">
+                                <span>Kelurahan :</span>
+                                <select id="SelectKelurahan" class="selectKelurahan fs-5" data-live-search="true" title="Kelurahan">
+                                    {{-- <option data-tokens="ketchup mustard" class="fs-5">Hot Dog, Fries and a Soda</option>
+                                    <option data-tokens="mustard" class="fs-5">Burger, Shake and a Smile</option>
+                                    <option data-tokens="frosting" class="fs-5">Sugar, Spice and all things nice</option> --}}
+                                </select>
+                            </div>
+                            <div id="ContainerSelectKelurahan" class="fs-5">
+                                <span>Alamat Lengkap :</span>
+                                <div class="input-group">
+                                    <textarea class="form-control fs-5" placeholder="Jalan Warakas, Rt.03 Rw.06 No.16, Kode Pos 17260" aria-label="With textarea"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="m-0">Ongkir</p>
+                        </div>
+                        <div class="col">
+                            <p class="m-0">Rp. 18.000</p>
+                        </div>
                     </div>
                 </div>
                 <p class="mt-5 fs-5">Payment Method</p>
@@ -74,6 +111,7 @@
                     <p class="fs-5 text-center">
                         Jumlah Total
                     </p>
+                    {{-- //TODO: ubah total menjadi subtotal + ongkir --}}
                     <p class="fs-1 fw-bolder custom-text-primary text-center">
                         Rp. {{ number_format(Cart::getSubTotal(), 0, '', '.') }}
                     </p>
