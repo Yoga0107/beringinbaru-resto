@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-
-        Schema::create('addresses', function (Blueprint $table) {
+        Schema::create('detail_order', function (Blueprint $table) {
             $table->id();
-            $table->string('id_district');
-            $table->string('id_village');
-            $table->string('street');
-            $table->unsignedBigInteger('cost_id');
+            $table->string('order_id');
+            $table->string('menu_id');
+            $table->string('qty');
+            $table->string('subtotal');
             $table->timestamps();
-            $table->softDeletes();
 
-            $table->foreign("cost_id")->references("id")->on("costs")->onDelete("cascade");
+            $table->foreign("order_id")->references("id")->on("orders")->onDelete("cascade");
+            $table->foreign("menu_id")->references("id")->on("menus")->onDelete("cascade");
         });
     }
 
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('detail_order');
     }
 };

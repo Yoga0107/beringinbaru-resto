@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCostRequest;
-use App\Models\Address;
 use App\Models\Cost;
+use App\Models\Street;
 use Illuminate\Http\Request;
 
 class CostController extends Controller
@@ -22,7 +22,7 @@ class CostController extends Controller
     {
         $cost = Cost::latest()->paginate(10);
         $costCount = Cost::count();
-        $addressCount = Address::count();
+        $streetCount = Street::count();
 
         if (!empty($request->search)) {
             $costSearch = Cost::where('cost', 'like', "%{$request->search}%")->paginate(10);
@@ -30,13 +30,13 @@ class CostController extends Controller
             return view('admin.costs.index')->with([
                 'costs' => $costSearch,
                 'costCount' => $costCount,
-                'addressCount' => $addressCount,
+                'streetCount' => $streetCount,
             ]);
         } else {
             return view('admin.costs.index')->with([
                 'costs' => $cost,
                 'costCount' => $costCount,
-                'addressCount' => $addressCount,
+                'streetCount' => $streetCount,
             ]);
         }
     }

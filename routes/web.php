@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\AddressController;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StreetController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
@@ -82,7 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('Unarchive/{id}/review', [CommentController::class, 'Unarchive'])->name('review.unarchive');
 
     /*************** shipping *****************************/
-    Route::resource('/address', AddressController::class);
+    Route::resource('/street', StreetController::class);
 
     // resource cost
     Route::resource('/cost', CostController::class);
@@ -121,6 +121,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     // checkout routes
     Route::get("/checkout", [CheckoutController::class, "index"])->name("checkout.index");
+    Route::get("/checkout/street/{villageId}", [CheckoutController::class, "getStreet"])->name("checkout.street");
+    Route::get("/checkout/cost/{street}", [CheckoutController::class, "getCost"])->name("checkout.cost");
 
     // GET API ALAMAT
     Route::get("/kelurahan/{idKecamatan}", [APIAddressController::class, "getKelurahan"])->name("address.kelurahan");

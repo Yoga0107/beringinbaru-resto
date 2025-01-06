@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cost;
+use App\Models\Street;
 use Darryldecode\Cart\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -20,7 +22,7 @@ class CheckoutController extends Controller
         $kecamatan = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/districts/1278.json');
 
         return view('checkout.index')->with([
-            'username' => $user->name,
+            'user' => $user,
             'items' => $cartContent,
             'itemsCount' => $cartContent->count(), // qte
             'kecamatan' => json_decode($kecamatan, true),
@@ -91,5 +93,16 @@ class CheckoutController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getStreet($villageId)
+    {
+        return Street::where('village_id', $villageId)->get();
+    }
+
+    public function getCost($street)
+    {
+        $street = Street::where('street', $street)->first();
+        return Cost::where('id', $street->cost_id)->first();
     }
 }

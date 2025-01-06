@@ -80,9 +80,8 @@
 
 /* overwrite .btn */
 select + .btn {
-    padding: 0 12px 0 12px;
+    padding: 2px 12px;
     margin: 0;
-    font-size: 1.25rem;
     color: #000;
     background-color: transparent;
     border-color: transparent;

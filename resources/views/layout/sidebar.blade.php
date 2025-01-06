@@ -77,7 +77,7 @@
                     <span class="icon"><ion-icon name="pin"></ion-icon></span>
                     <span class="title">Shipping</span>
                 </a>
-                <div class="custom-dropdown-item"><a class="" href="/address"><span>Address</span></a></div>
+                <div class="custom-dropdown-item"><a class="" href="/street"><span>Street</span></a></div>
                 <div class="custom-dropdown-item"><a class="" href="/cost"><span>Cost</span></a></div>
             </li>
             <li>
