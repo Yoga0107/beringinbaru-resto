@@ -13,6 +13,7 @@ class CartController extends Controller
     {
         $userId = auth()->user()->id;
         $cartContent = \Cart::session($userId)->getContent();
+
         return view('Cart.index')->with([
             'items' => $cartContent,
             'itemsCount' => $cartContent->count(), // qte
@@ -29,7 +30,7 @@ class CartController extends Controller
             'id' => $menu->id,
             'name' => $menu->title,
             'price' => $menu->pric,
-            "quantity" => $request->quantity ? $request->quantity : 1, 
+            "quantity" => $request->quantity ? $request->quantity : 1,
             "attributes" => array(),
             "associatedModel" => $menu,
         ));

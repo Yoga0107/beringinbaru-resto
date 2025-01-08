@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Categorie;
+use App\Models\Street;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CategorieSeeder extends Seeder
+class StreetSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,10 +15,11 @@ class CategorieSeeder extends Seeder
      */
     public function run()
     {
-        Categorie::create([
-
-            'title' => 'makanan pedas',
-            'visibility' => 1,
+        Street::create([
+            'district_id' => '1278040',
+            'village_id' => '1278040003',
+            'street' => 'Jalan Jatiwaringin',
+            'cost_id' => 1,
         ]);
     }
 }

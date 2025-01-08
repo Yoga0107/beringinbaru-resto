@@ -1,0 +1,93 @@
+/* variable from index.css */
+
+.pointer {
+    cursor: pointer;
+}
+
+.logo {
+    color: var(--primaryyColor);
+    font-size: 2.5rem;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+.logo i {
+    color: var(--green2);
+}
+
+.custom-border-width {
+    border-width: 1.3px !important;
+}
+
+.custom-border-color {
+    border-color: var(--primaryyColor) !important;
+}
+
+.custom-text-primary {
+    color: var(--primaryyColor);
+}
+
+.custom-text-green2 {
+    color: var(--green2);
+}
+
+.custom-text-light-gray {
+    color: var(--light-gray);
+}
+
+.bg-light-gray {
+    background-color: var(--light-gray);
+}
+
+.bg-custom-primary {
+    background-color: var(--primaryyColor);
+}
+
+.rounded-1rem {
+    border-radius: 1rem;
+}
+
+/* from app.css */
+.btn-primary-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* dropdown */
+.custom-dropdown:hover > .custom-dropdown-item {
+    position: relative !important;
+    display: block !important;
+}
+
+.custom-dropdown-item {
+    display: none;
+    a {
+        height: 40px;
+        line-height: 40px;
+        span {
+            margin-left: 70px;
+        }
+    }
+    a:hover > span {
+        font-weight: 600;
+    }
+}
+
+.custom-select {
+    border-color: #000;
+}
+
+/* overwrite .btn */
+select + .btn {
+    padding: 2px 12px;
+    margin: 0;
+    color: #000;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+select + .btn:hover {
+    background-color: transparent;
+    letter-spacing: 0;
+}

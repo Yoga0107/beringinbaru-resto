@@ -202,7 +202,6 @@ body {
     transition: 0.5s;
 }
 .main.active {
-
     width: calc(100% - 70px);
     left: 70px;
 }

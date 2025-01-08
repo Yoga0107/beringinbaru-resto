@@ -7,6 +7,7 @@
     --green3: #cde0c9;
     --green4: #e0ecde;
     --light-color: #666;
+    --light-gray: #e9eaef;
     --box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
 }
 * {
@@ -448,7 +449,6 @@ header .icons #menu-bars {
 .review2 form .inputBox {
     display: flex;
     flex-wrap: wrap;
-
 }
 .review2 form .inputBox .input {
     width: 100%;
@@ -621,7 +621,6 @@ th:last-child {
 }
 /*responsive cart style  */
 @media only screen and (max-width: 600px) {
-
 }
 
 /*********** responsive style *********************/
@@ -662,20 +661,10 @@ th:last-child {
         background: #fff;
         border-top: 0.1rem solid rgba(0, 0, 0, 2);
         padding: 1rem;
-        clip-path: polygon(
-            0 0,
-            100% 0,
-            100% 0,
-            0 0
-        );
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
     }
     header .navbar.active {
-        clip-path: polygon(
-            0 0,
-            100% 0,
-            100% 100%,
-            0% 100%
-        );
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
     }
     header .navbar a {
         display: block;

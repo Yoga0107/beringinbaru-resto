@@ -2,13 +2,17 @@
 
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StreetController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\APIAddressController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CostController;
 use App\Http\Controllers\JadorMenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaypalPaymentController;
@@ -77,7 +81,13 @@ Route::group(['middleware' => 'auth'], function () {
     // Unarchive review route
     Route::put('Unarchive/{id}/review', [CommentController::class, 'Unarchive'])->name('review.unarchive');
 
+    /*************** shipping *****************************/
+    Route::resource('/street', StreetController::class);
 
+    // resource cost
+    Route::resource('/cost', CostController::class);
+    // search cost
+    Route::post('/cost/search', [CostController::class, 'index'])->name('cost-search.index');
 
 
 
@@ -108,6 +118,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('Add/Cart/{product}', [CartController::class, 'addMenuToCart'])->name('cart.add');
     Route::put('update/{item}/cart', [CartController::class, 'updateItemInCart'])->name('cart.update');
     Route::delete('remove/{item}/cart', [CartController::class, 'removeItemFromCart'])->name('cart.remove');
+
+    // checkout routes
+    Route::get("/checkout", [CheckoutController::class, "index"])->name("checkout.index");
+    Route::get("/checkout/street/{villageId}", [CheckoutController::class, "getStreet"])->name("checkout.street");
+    Route::get("/checkout/cost/{street}", [CheckoutController::class, "getCost"])->name("checkout.cost");
+
+    // GET API ALAMAT
+    Route::get("/kelurahan/{idKecamatan}", [APIAddressController::class, "getKelurahan"])->name("address.kelurahan");
 
     //Payment with Paypal Routes
     Route::get("/handel-payment", [PaypalPaymentController::class, "handelPayment"])->name("make.payment");
