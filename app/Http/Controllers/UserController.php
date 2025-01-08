@@ -152,7 +152,7 @@ class UserController extends Controller
             }
         } else {
             return redirect()->route('user.login')->with([
-                'error' => 'Email ou mot de passe est incorrect '
+                'error' => 'Email atau password salah'
             ]);
         }
     }
