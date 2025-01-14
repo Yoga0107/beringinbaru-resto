@@ -61,11 +61,16 @@
                     <td class="price">Rp {{ number_format($item->total, 0, '', '.') }}</td>
                     <td>
                         @if ($item->status === 'delivery')
-                            <form action="/transaction/{{ $item->id }}" method="post">
-                                @csrf
-                                @method('PUT')
-                                <button type="submit" id="btn" class="btn btn-primary mt-5">Pesanan Diterima</button>
-                            </form>
+                            <div>
+                                <a href="https://wa.me/62xxxxxxxxx">
+                                    <button type="submit" id="btn" class="btn btn-danger mt-5">Complain</button>
+                                </a>
+                                <form action="/transaction/{{ $item->id }}" method="post">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" id="btn" class="btn btn-primary mt-5">Diterima</button>
+                                </form>
+                            </div>
                         @endif
                         @if ($item->status === 'delivered')
                             <a href="/#review2">
