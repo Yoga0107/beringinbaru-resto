@@ -50,7 +50,7 @@
 
         <div class="Card">
             <div>
-                <div class="numbers">{{ $Earning }}</div>
+                <div class="numbers">{{ number_format($Earning, 0, '', '.') }}</div>
                 <div class="CardName">Earning</div>
             </div>
             <div class="iconBox">
@@ -126,13 +126,13 @@
                                                     </td>
                                                     <td>
                                                         @foreach ($order->detailOrder as $detail)
-                                                            Rp {{ $detail->menu->pric }}<br>
+                                                            Rp{{ number_format($detail->menu->pric, 0, '', '.') }}<br>
                                                         @endforeach
                                                     </td>
                                                     <td>
-                                                        Rp {{ $order->Street->cost->cost }}
+                                                        Rp {{ number_format($order->Street->cost->cost, 0, '', '.') }}
                                                     </td>
-                                                    <td>Rp {{ $order->total }}</td>
+                                                    <td>Rp {{ number_format($order->total, 0, '', '.') }}</td>
                                                     <td>
                                                         @if ($order->cod)
                                                             COD

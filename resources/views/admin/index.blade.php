@@ -31,7 +31,7 @@
         </div>
         <div class="Card">
             <div>
-                <div class="numbers">{{ $Earning }}</div>
+                <div class="numbers">{{ number_format($Earning, 0, '', '.') }}</div>
                 <div class="CardName">Earning</div>
             </div>
             <div class="iconBox">
