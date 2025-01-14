@@ -20,15 +20,22 @@ class Street extends Model
 
     protected $appends = ['district', 'village'];
 
+    // kecamatan
     public function getDistrictAttribute()
     {
         $dictrict = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/district/' . $this->district_id .  '.json');
         return $dictrict['name'];
     }
 
+    // kelurahan 
     public function getVillageAttribute()
     {
         $village = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/village/' . $this->village_id .  '.json');
         return $village['name'];
+    }
+
+    public function cost()
+    {
+        return $this->belongsTo(Cost::class, 'id');
     }
 }

@@ -55,6 +55,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/orders', OrderController::class);
     // search order route
     Route::post('/orders', [OrderController::class, 'index'])->name('orders.search');
+    // update status order route
+    Route::put('/orders/updateStatus/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     // get archived prdedr route
     Route::get('ArchiveOrders', [OrderController::class, 'getArchive'])->name('orders.archive');
     Route::put('Unarchive/{id}/order', [OrderController::class, 'unarchive'])->name('order.unarchive');
@@ -123,6 +125,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get("/checkout", [CheckoutController::class, "index"])->name("checkout.index");
     Route::get("/checkout/street/{villageId}", [CheckoutController::class, "getStreet"])->name("checkout.street");
     Route::get("/checkout/cost/{street}", [CheckoutController::class, "getCost"])->name("checkout.cost");
+    Route::post("/checkout", [CheckoutController::class, "store"])->name("checkout.store");
 
     // GET API ALAMAT
     Route::get("/kelurahan/{idKecamatan}", [APIAddressController::class, "getKelurahan"])->name("address.kelurahan");

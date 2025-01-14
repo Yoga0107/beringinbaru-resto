@@ -28,8 +28,11 @@ class AdminController extends Controller
             'reviews' => Comment::where('status', 1)->count(),
             'Earning' => Order::sum('total'),
             // sum total group by menu
-            'SalesByMenus' => Order::select(DB::raw('sum(total) as total_quantity'), 'menu_name')
-                ->groupBy('menu_name')->get(),
+            'SalesByMenus' => Order::join('detail_orders', 'orders.id', '=', 'detail_orders.order_id')
+                ->join('menus', 'menus.id', '=', 'detail_orders.menu_id')
+                ->select(DB::raw('sum(total) as total_quantity'), DB::raw('menus.title as menu_name'))
+                ->groupBy('menu_name')
+                ->get(),
             'OrdersCountByDate' => Order::select(
                 DB::raw('count(id) as CountOrder'),
                 DB::raw("(DATE_FORMAT(created_at, '%d-%m-%Y')) as month_year")

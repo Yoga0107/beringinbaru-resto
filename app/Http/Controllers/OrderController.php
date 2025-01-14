@@ -7,7 +7,9 @@ use App\Models\Order;
 use App\Models\Comment;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\DetailOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -26,9 +28,8 @@ class OrderController extends Controller
         if (!empty($request->search)) {
             return view('admin.orders.index')->with([
                 'orders' => Order::where('id', 'like', "%{$request->search}%")
-                    ->orWhere('menu_name', 'like', "%{$request->search}%")
-                    ->orWhere('price', 'like', "%{$request->search}%")
                     ->orWhere('total', 'like', "%{$request->search}%")
+                    ->orWhere('paid', 'like', "%{$request->search}%")
                     ->paginate(6),
                 'usersCount' => User::where('admin', 0)->count(),
                 'sales' => Order::where('paid', 1)->count(),
@@ -37,7 +38,7 @@ class OrderController extends Controller
             ]);
         } else {
             return view('admin.orders.index')->with([
-                'orders' => Order::latest()->paginate(6),
+                'orders' => order::latest()->paginate(6),
                 'usersCount' => User::where('admin', 0)->count(),
                 'sales' => Order::where('paid', 1)->count(),
                 'ArchivedOrders' => Order::whereNotNull('deleted_at')->withTrashed()->count(),
@@ -107,12 +108,29 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, $id)
     {
-        //
+        $request->validate([
+            'input_courier' => 'required',
+            'input_estimation' => 'required',
+        ]);
+
         $order = Order::findOrFail($id);
         $order->update([
-            'deliverde' => 1,
+            'delivery' => 1,
+            'courier' => $request->input_courier,
+            'estimation' => $request->input_estimation,
+            'status' => 'delivery',
         ]);
-        return redirect()->route('orders.index')->with(['success' => 'Delevired Status change Successfully']);
+        return redirect()->route('orders.index')->with(['success' => 'Delivery Status change Successfully']);
+    }
+
+    public function updateStatus($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->update([
+            'paid' => 1,
+            'status' => 'success',
+        ]);
+        return redirect()->route('orders.index')->with(['success' => 'Delivery Status change Successfully']);
     }
 
     public function unarchive($id)

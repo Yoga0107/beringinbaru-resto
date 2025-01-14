@@ -2,61 +2,62 @@
 
 
 @section('search')
-   {{-- section   shearch   --}}
-   <div class="search">
-       <form action="{{route('orders.search')}}" method="POST" id="serach">
-        @csrf
-             <label>
-              <input type="text" placeholder="Search Here" name="search" id="search"
-                     onabort="event.preventDefault();
+    {{-- section   shearch   --}}
+    <div class="search">
+        <form action="{{ route('orders.search') }}" method="POST" id="serach">
+            @csrf
+            <label>
+                <input type="text" placeholder="Search Here" name="search" id="search"
+                    onabort="event.preventDefault();
                          document.getElementById('serach').submit();
                      "
-              >
-              <ion-icon name="search"></ion-icon>
+                >
+                <ion-icon name="search"></ion-icon>
 
             </label>
         </form>
     </div>
 @endsection
-@section('content')
-  <!-- Cards -->
-            <div class="CardBox">
-                <div class="Card">
-                    <div>
-                        <div class="numbers">{{$sales}}</div>
-                        <div class="CardName">Orders</div>
-                    </div>
-                    <div class="iconBox">
-                        <ion-icon name="basket"></ion-icon>
-                    </div>
-                </div>
-                <div class="Card">
-                    <div>
-                        <div class="numbers">{{$ArchivedOrders}}</div>
-                        <div class="CardName">Orders Archive</div>
-                    </div>
-                    <div class="iconBox">
-                       <ion-icon name="archive"></ion-icon>
-                    </div>
-                </div>
-                <div class="Card">
-                    <div>
-                        <div class="numbers">{{$usersCount}}</div>
-                        <div class="CardName">Customers</div>
-                    </div>
-                    <div class="iconBox"><ion-icon name="person"></ion-icon></div>
-                </div>
 
-                <div class="Card">
-                    <div>
-                        <div class="numbers">{{$Earning}}</div>
-                        <div class="CardName">Earning</div>
-                    </div>
-                    <div class="iconBox">
-                          <ion-icon name="cash"></ion-icon>
-                    </div>
-                </div>
+@section('content')
+    <!-- Cards -->
+    <div class="CardBox">
+        <div class="Card">
+            <div>
+                <div class="numbers">{{ $sales }}</div>
+                <div class="CardName">Orders</div>
             </div>
+            <div class="iconBox">
+                <ion-icon name="basket"></ion-icon>
+            </div>
+        </div>
+        <div class="Card">
+            <div>
+                <div class="numbers">{{ $ArchivedOrders }}</div>
+                <div class="CardName">Orders Archive</div>
+            </div>
+            <div class="iconBox">
+                <ion-icon name="archive"></ion-icon>
+            </div>
+        </div>
+        <div class="Card">
+            <div>
+                <div class="numbers">{{ $usersCount }}</div>
+                <div class="CardName">Customers</div>
+            </div>
+            <div class="iconBox"><ion-icon name="person"></ion-icon></div>
+        </div>
+
+        <div class="Card">
+            <div>
+                <div class="numbers">{{ $Earning }}</div>
+                <div class="CardName">Earning</div>
+            </div>
+            <div class="iconBox">
+                <ion-icon name="cash"></ion-icon>
+            </div>
+        </div>
+    </div>
     {{-- orders list --}}
     <div class="container">
         <div class="row justify-content-center">
@@ -70,18 +71,18 @@
                         </div>
                         <!--- details Lists --->
                         <div class="cat-details">
-                                <!--- category details List -->
-                                <div class="list">
-                                    <div class="cartHeader">
-                                        <h2>Orders</h2>
-                                         @if (Route::currentRouteName() == 'orders.archive')
-                                            <a href="{{route('orders.index')}}" class="btn">View Orders</a>
-                                        @else
-                                             <a href="{{route('orders.archive')}}" class="btn">View Archived Orders</a>
-                                        @endif
+                            <!--- category details List -->
+                            <div class="list">
+                                <div class="cartHeader">
+                                    <h2>Orders</h2>
+                                    @if (Route::currentRouteName() == 'orders.archive')
+                                        <a href="{{ route('orders.index') }}" class="btn">View Orders</a>
+                                    @else
+                                        <a href="{{ route('orders.archive') }}" class="btn">View Archived Orders</a>
+                                    @endif
 
-                                    </div>
-                                    <div class="table-responsive">
+                                </div>
+                                <div class="table-responsive">
                                     <table>
                                         <thead>
                                             <tr>
@@ -90,66 +91,143 @@
                                                 <td>Menu</td>
                                                 <td>Quantity</td>
                                                 <td>Price</td>
+                                                <td>Cost</td>
                                                 <td>Total</td>
+                                                <td>COD</td>
                                                 <td>Paid</td>
-                                                <td>Deliverde</td>
+                                                <td>Delivery</td>
+                                                <td>Status</td>
                                                 <td class="text-center">Action</td>
                                             </tr>
                                         </thead>
 
                                         <tbody>
-
                                             @foreach ($orders as $order)
-                                                 <tr>
-                                                    <td>{{$order->id}}</td>
+                                                <tr>
+                                                    {{-- @dd($orders) --}}
+                                                    <td>{{ $order->id }}</td>
                                                     <td>
-                                                        {{$order->User->name}}
+                                                        {{ $order->User->name }}
                                                     </td>
-                                                    <td>{{$order->menu_name}}</td>
-                                                    <td>{{$order->qte}}</td>
-                                                    <td>{{$order->price}} MAD</td>
-                                                    <td>{{$order->total}} MAD</td>
                                                     <td>
-                                                         @if ($order->paid)
-                                                          <i class="fa fa-check text-success"></i>
-
+                                                        @foreach ($order->detailOrder as $detail)
+                                                            {{ $detail->menu->title }}<br>
+                                                        @endforeach
+                                                    </td>
+                                                    <td>
+                                                        @foreach ($order->detailOrder as $detail)
+                                                            {{ $detail->qty }}<br>
+                                                        @endforeach
+                                                    </td>
+                                                    <td>
+                                                        @foreach ($order->detailOrder as $detail)
+                                                            Rp {{ $detail->menu->pric }}<br>
+                                                        @endforeach
+                                                    </td>
+                                                    <td>
+                                                        Rp {{ $order->Street->cost->cost }}
+                                                    </td>
+                                                    <td>Rp {{ $order->total }}</td>
+                                                    <td>
+                                                        @if ($order->cod)
+                                                            <i class="fa fa-check text-success"></i>
                                                         @else
-                                                          <i class="fa fa-close text-danger"></i>
+                                                            <i class="fa fa-close text-danger"></i>
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($order->deliverde)
-                                                          <i class="fa fa-check text-success"></i>
-
+                                                        @if ($order->paid)
+                                                            <i class="fa fa-check text-success"></i>
                                                         @else
-                                                          <i class="fa fa-close text-danger"></i>
+                                                            <i class="fa fa-close text-danger"></i>
                                                         @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($order->delivery)
+                                                            <i class="fa fa-check text-success"></i>
+                                                        @else
+                                                            <i class="fa fa-close text-danger"></i>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        {{ $order->status }}
                                                     </td>
 
                                                     <td class="d-flex flex-row justify-content-center align-items-center ">
-                                                        {{-- delevred button --}}
-                                                        @if ($order->deliverde === 0)
-                                                            <form id="{{$order->id}}" action="{{route('orders.update',$order->id)}}" method="POST">
-                                                          @csrf
-                                                          @method('PUT')
-                                                          <button
-                                                            title="Menu Delivered"
-                                                            onclick="event.preventDefault();
-                                                            document.getElementById({{$order->id}}).submit();"
-                                                            class="btn  btn-pr  btn-sm ml-2" >
+                                                        {{-- button detail --}}
+                                                        <button title="Order detail" class="btn  btn-pr  btn-sm ml-2">
+                                                            <i class="fa fa-info text-white"></i>
+                                                        </button>
+
+                                                        {{-- button delivery --}}
+                                                        @if ($order->status === 'process')
+                                                            <button title="Deliver To Customer" type="button" class="btn btn-pr btn-sm ml-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                                 <i class="fa fa-check text-white"></i>
+                                                            </button>
+
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title text-primary" id="exampleModalLabel">Data Pengiriman</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <form id="{{ $order->id }}" action="{{ route('orders.update', $order->id) }}" method="POST">
+                                                                            @csrf
+                                                                            @method('PUT')
+                                                                            <div class="modal-body text-primary text-start">
+                                                                                <p>Nama Kurir:
+                                                                                    <input type="text" class="form-control d-inline w-50" id="inputCourir" name="input_courier"
+                                                                                        aria-describedby="courier"
+                                                                                    >
+                                                                                </p>
+                                                                                <p>Estimasi Tiba:
+                                                                                    <input type="time" class="form-control d-inline w-50" id="inputEstimation" name="input_estimation"
+                                                                                        aria-describedby="estimation"
+                                                                                    >
+                                                                                </p>
+                                                                                <p>Penerima: {{ $order->User->name }}</p>
+                                                                                <p class="mb-1">Alamat </p>
+                                                                                <p class="mb-0">kecamatan: {{ $order->street->district }}</p>
+                                                                                <p class="mb-0">Kelurahan: {{ $order->street->village }}</p>
+                                                                                <p class="mb-0">Jalan: {{ $order->street->street }}</p>
+                                                                                <p>Total Pembayaran: Rp {{ $order->total }}</p>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                                <button class="btn btn-primary" onclick="event.preventDefault(); document.getElementById({{ $order->id }}).submit();">
+                                                                                    Delivery Now
+                                                                                </button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+
+                                                        {{-- success button --}}
+                                                        @if ($order->delivery === 1 && $order->status === 'delivery')
+                                                            <form id="{{ $order->id }}" action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <button title="Order Success"
+                                                                    onclick="event.preventDefault();
+                                                            document.getElementById({{ $order->id }}).submit();"
+                                                                    class="btn  btn-pr  btn-sm ml-2"
+                                                                >
+                                                                    <i class="fa fa-check text-white"></i>
                                                                 </button>
                                                             </form>
                                                         @endif
 
                                                         @if (empty($order->deleted_at))
-                                                             {{-- Archive form --}}
-                                                         <form id="{{$order->id}}" action="{{route("orders.destroy",$order->id)}}" method="post" style="margin-left: 4px !important">
-                                                           @csrf
-                                                            @method('DELETE')
-                                                            <button class="btn btn-danger btn-sm"
-                                                                title="Archive order"
-                                                               onclick="event.preventDefault();
+                                                            {{-- Archive form --}}
+                                                            <form id="{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="post" style="margin-left: 4px !important">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="btn btn-danger btn-sm" title="Archive order"
+                                                                    onclick="event.preventDefault();
 
                                                                     Swal.fire({
                                                                     title: 'Are you sure?',
@@ -161,7 +239,7 @@
                                                                     confirmButtonText: 'Yes, Archive it!'
                                                                     }).then((result) => {
                                                                     if (result.isConfirmed) {
-                                                                        document.getElementById('{{$order->id}}').submit();
+                                                                        document.getElementById('{{ $order->id }}').submit();
                                                                         Swal.fire(
                                                                         'Deleted!',
                                                                         'The Order has been Archived.',
@@ -170,51 +248,46 @@
                                                                     }
                                                                     })
                                                                "
-                                                            >
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
-                                                        </form>
+                                                                >
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </form>
                                                         @else
-                                                            <form  id="{{$order->id}}"
-                                                                    action="{{route("order.unarchive",$order->id)}}"
-                                                                    method="Post">
-                                                                    @csrf
-                                                                    @method("PUT")
-                                                                <button
-                                                                title="Unarchive this Order"
-                                                                onclick="event.preventDefault();
-                                                                document.getElementById({{$order->id}}).submit();"
-                                                                class="btn  btn-pr  btn-sm ml-2" >
+                                                            <form id="{{ $order->id }}" action="{{ route('order.unarchive', $order->id) }}" method="Post">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <button title="Unarchive this Order"
+                                                                    onclick="event.preventDefault();
+                                                                document.getElementById({{ $order->id }}).submit();"
+                                                                    class="btn  btn-pr  btn-sm ml-2"
+                                                                >
                                                                     <i class="fa-solid fa-diagram-next text-white"></i>
                                                                 </button>
-                                                                </form>
-
+                                                            </form>
                                                         @endif
 
 
                                                     </td>
                                                 </tr>
-
                                             @endforeach
-                                       </tbody>
+                                        </tbody>
 
                                     </table>
-                                    </div>
-
-
                                 </div>
 
+
                             </div>
-                             {{-- Pagination --}}
-                                    <div class="justify-content-center d-flex">
-                                           {{$orders->links("pagination::bootstrap-4")}}
-                                    </div>
+
+                        </div>
+                        {{-- Pagination --}}
+                        <div class="justify-content-center d-flex">
+                            {{ $orders->links('pagination::bootstrap-4') }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endsection
 
-@endsection
-
-@section('script')
-@endsection
+    @section('script')
+    @endsection

@@ -5,10 +5,12 @@
         <div class="row justify-content-between">
             {{-- START PAYMENT --}}
             <div class="col-6 py-4">
-                <form action="" method="post">
+                <form action="checkout" method="post">
                     @csrf
                     <input type="hidden" name="user_id" value="{{ $user->id }}">
-                    <input type="hidden" name="street_id">
+                    <input type="hidden" id="FormStreet" name="street_id">
+                    <input type="hidden" id="FormCost" name="cost_id">
+                    <input type="hidden" id="FormTotal" name="total">
 
                     <div class="logo"><i class="fas fa-utensils"></i>BERINGIN BARU</div>
                     <p class="mt-5 fs-5">Customer Information</p>
@@ -60,7 +62,7 @@
                     <p class="mt-5 fs-5">Payment Method</p>
                     <div class="d-flex">
                         <div class="form-check flex-fill ps-0 me-3 border rounded-3 custom-text-primary">
-                            <input class="form-check-input d-none" type="radio" name="paymentMethod" id="e-transfer" onchange="paymentMethod()">
+                            <input class="form-check-input d-none" type="radio" name="paymentMethod" id="e-transfer" onchange="btnPaymentMethod()" value="e-transfer">
                             <label class="form-check-label w-100" for="e-transfer">
                                 <div class="p-4 border rounded-3 custom-border-width custom-border-color pointer">
                                     <div class="mx-auto text-center">
@@ -74,7 +76,7 @@
                             </label>
                         </div>
                         <div class="form-check flex-fill ps-0 border rounded-3 custom-text-primary">
-                            <input class="form-check-input d-none" type="radio" name="paymentMethod" id="cod" onchange="paymentMethod()">
+                            <input class="form-check-input d-none" type="radio" name="paymentMethod" id="cod" onchange="btnPaymentMethod()" value="cod">
                             <label class="form-check-label w-100" for="cod">
                                 <div class="p-4 border rounded-3 custom-border-width custom-border-color pointer">
                                     <div class="mx-auto text-center">
@@ -99,7 +101,7 @@
                         <p class="mt-5 fs-5">Pastikan Kamu di rumah, dan menyiapkan uang pas</p>
                     </div>
 
-                    <div id="btnPayment" class="btn btn-primary-disabled w-100 mt-5">Lakukan Pembayaran</div>
+                    <button type="submit" id="btnPayment" class="btn btn-primary-disabled w-100 mt-5">Lakukan Pembayaran</button>
 
                 </form>
             </div>

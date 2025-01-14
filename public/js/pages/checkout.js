@@ -5,7 +5,7 @@ let btnPayment = document.getElementById("btnPayment");
 // let select = document.getElementsByClassName("selectpicker");
 // select.selectPicker();
 
-function paymentMethod() {
+function btnPaymentMethod() {
     // cek radio button yg statusnya checked
     for (var i = 0; i < radioButtons.length; i++) {
         // jika radio button checked
