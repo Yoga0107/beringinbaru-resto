@@ -159,23 +159,41 @@
                                                     </td>
                                                     <td>
                                                         @if ($order->receipt)
-                                                            <img src="{{ asset('images//receipt/' . $order->receipt) }}" alt="receipt_image" class="img-fluid rounded-circle" width="70"
-                                                                height="70">
+                                                            <button type="button" class="" data-bs-toggle="modal" data-bs-target="#modalImage" data-bs-whatever="@fat">
+                                                                <img src="{{ asset('images//receipt/' . $order->receipt) }}" alt="receipt_image" class="img-fluid" width="70" height="70">
+                                                            </button>
+
+                                                            <div class="modal fade" id="modalImage" tabindex="-1" aria-labelledby="modalImageLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title text-dark" id="modalImageLabel">Receipt</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <img src="{{ asset('images//receipt/' . $order->receipt) }}" alt="receipt_image" class="img-fluid" width="100%"
+                                                                                height="100%"
+                                                                            >
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         @else
                                                             <div></div>
                                                         @endif
                                                     </td>
 
                                                     <td class="d-flex flex-row justify-content-center align-items-center ">
-                                                        {{-- button detail --}}
-                                                        <button title="Order detail" class="btn  btn-pr  btn-sm ml-2">
-                                                            <i class="fa fa-info text-white"></i>
-                                                        </button>
+                                                        @if ($order->status === 'delivery')
+                                                        @endif
 
                                                         {{-- button delivery --}}
                                                         @if ($order->status === 'process')
                                                             <button title="Deliver To Customer" type="button" class="btn btn-pr btn-sm ml-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                                <i class="fa fa-check text-white"></i>
+                                                                <i class="fa fa-checkout text-white"></i>
                                                             </button>
 
                                                             <!-- Modal -->
@@ -183,13 +201,13 @@
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h5 class="modal-title text-primary" id="exampleModalLabel">Data Pengiriman</h5>
+                                                                            <h5 class="modal-title text-dark" id="exampleModalLabel">Data Pengiriman</h5>
                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
                                                                         <form id="{{ $order->id }}" action="{{ route('orders.update', $order->id) }}" method="POST">
                                                                             @csrf
                                                                             @method('PUT')
-                                                                            <div class="modal-body text-primary text-start">
+                                                                            <div class="modal-body text-dark text-start">
                                                                                 <p>Nama Kurir:
                                                                                     <input type="text" class="form-control d-inline w-50" id="inputCourir" name="input_courier"
                                                                                         aria-describedby="courier"
@@ -220,15 +238,49 @@
                                                             </div>
                                                         @endif
 
-                                                        {{-- success button --}}
-                                                        @if ($order->delivery === 1 && $order->status === 'delivery')
+                                                        @if ($order->delivery && $order->status === 'delivery')
+                                                            {{-- button detail pengiriman --}}
+                                                            <button title="info more" type="button" class="btn btn-warning btn-sm me-1" data-bs-toggle="modal" data-bs-target="#infomodal">
+                                                                <i class="fa fa-info text-white"></i>
+                                                            </button>
+
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="infomodal" tabindex="-1" aria-labelledby="infomodal" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title text-dark" id="infomodal">Info Pengiriman</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body text-dark text-start">
+                                                                            <p>Nama Kurir: {{ $order->courier }}
+                                                                            </p>
+                                                                            <p>Estimasi Tiba: {{ $order->estimation }}
+                                                                            </p>
+                                                                            <p>Penerima: {{ $order->User->name }}</p>
+                                                                            <p class="mb-1">Alamat </p>
+                                                                            <p class="mb-0">kecamatan: {{ $order->street->district }}</p>
+                                                                            <p class="mb-0">Kelurahan: {{ $order->street->village }}</p>
+                                                                            <p class="mb-0">Jalan: {{ $order->street->street }}</p>
+                                                                            <p class="mb-0">Alamat Lengkap: {{ $order->address }}</p>
+                                                                            <p>Total Pembayaran: Rp {{ $order->total }}</p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            {{-- button success --}}
                                                             <form id="{{ $order->id }}" action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
                                                                 @csrf
                                                                 @method('PUT')
                                                                 <button title="Order Success"
                                                                     onclick="event.preventDefault();
                                                             document.getElementById({{ $order->id }}).submit();"
-                                                                    class="btn  btn-pr  btn-sm ml-2"
+                                                                    class="btn  btn-success  btn-sm ml-2"
                                                                 >
                                                                     <i class="fa fa-check text-white"></i>
                                                                 </button>
