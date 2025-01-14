@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('status');
             $table->string('courier')->nullable();
             $table->time('estimation')->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

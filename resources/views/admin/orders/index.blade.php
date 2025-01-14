@@ -75,6 +75,10 @@
                             <div class="list">
                                 <div class="cartHeader">
                                     <h2>Orders</h2>
+                                    {{-- Export Orders  --}}
+                                    <a title="Export All users" class="btn  btn-sm btn-success mr-0" href="{{ route('orders-export') }}">
+                                        <i class="fa-solid fa-download text-white"></i>
+                                    </a>
                                     @if (Route::currentRouteName() == 'orders.archive')
                                         <a href="{{ route('orders.index') }}" class="btn">View Orders</a>
                                     @else
@@ -93,10 +97,11 @@
                                                 <td>Price</td>
                                                 <td>Cost</td>
                                                 <td>Total</td>
-                                                <td>COD</td>
+                                                <td>Payment Method</td>
                                                 <td>Paid</td>
                                                 <td>Delivery</td>
                                                 <td>Status</td>
+                                                <td>receipt</td>
                                                 <td class="text-center">Action</td>
                                             </tr>
                                         </thead>
@@ -130,9 +135,9 @@
                                                     <td>Rp {{ $order->total }}</td>
                                                     <td>
                                                         @if ($order->cod)
-                                                            <i class="fa fa-check text-success"></i>
+                                                            COD
                                                         @else
-                                                            <i class="fa fa-close text-danger"></i>
+                                                            E-transfer
                                                         @endif
                                                     </td>
                                                     <td>
@@ -151,6 +156,14 @@
                                                     </td>
                                                     <td>
                                                         {{ $order->status }}
+                                                    </td>
+                                                    <td>
+                                                        @if ($order->receipt)
+                                                            <img src="{{ asset('images//receipt/' . $order->receipt) }}" alt="receipt_image" class="img-fluid rounded-circle" width="70"
+                                                                height="70">
+                                                        @else
+                                                            <div></div>
+                                                        @endif
                                                     </td>
 
                                                     <td class="d-flex flex-row justify-content-center align-items-center ">
@@ -192,6 +205,7 @@
                                                                                 <p class="mb-0">kecamatan: {{ $order->street->district }}</p>
                                                                                 <p class="mb-0">Kelurahan: {{ $order->street->village }}</p>
                                                                                 <p class="mb-0">Jalan: {{ $order->street->street }}</p>
+                                                                                <p class="mb-0">Alamat Lengkap: {{ $order->address }}</p>
                                                                                 <p>Total Pembayaran: Rp {{ $order->total }}</p>
                                                                             </div>
                                                                             <div class="modal-footer">

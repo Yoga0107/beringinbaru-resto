@@ -5,7 +5,7 @@
         <div class="row justify-content-between">
             {{-- START PAYMENT --}}
             <div class="col-6 py-4">
-                <form action="checkout" method="post">
+                <form action="checkout" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="user_id" value="{{ $user->id }}">
                     <input type="hidden" id="FormStreet" name="street_id">
@@ -47,6 +47,10 @@
                                     <select id="SelectStreet" class="selectStreet fs-5" data-live-search="true" title="street">
 
                                     </select>
+                                </div>
+                                <div class="input-group">
+                                    <span>alamat lengkap :</span>
+                                    <textarea class="form-control fs-5" name="address" aria-label="full address" placeholder="Rt.010 Rw.06 No.3, gang matahari"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -95,6 +99,11 @@
                         <p class="mt-5 fs-5">Nomor Rekening</p>
                         <p class="fs-5 fw-bold m-0">0123123123</p>
                         <p class="m-0">A/N Bayu</p>
+                    </div>
+
+                    <div id="receipt" class="d-none">
+                        <p class="mt-5 fs-5">Input Recipt</p>
+                        <input type="file" name="receipt" id="inputReceipt">
                     </div>
 
                     <div id="pesanCOD" class="d-none">

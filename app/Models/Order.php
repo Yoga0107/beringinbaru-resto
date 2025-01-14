@@ -19,6 +19,8 @@ class Order extends Model
         'courier',
         'estimation',
         'cod',
+        'receipt',
+        'address',
         'status',
     ];
     // public function detailOrders()

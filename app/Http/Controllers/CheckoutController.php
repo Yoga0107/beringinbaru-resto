@@ -49,12 +49,39 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->paymentMethod == 'cod') {
+        if ($request->paymentMethod == 'e-transfer') {
+            if ($request->has('receipt')) {
+                $file = $request->receipt;
+                $imageName = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('images/receipt'), $imageName);
+                $request->receipt = $imageName;
+            }
+            $order = Order::create([
+                'user_id' => $request->user_id,
+                'street_id' => $request->street_id,
+                'total' => $request->total,
+                'cod' => false,
+                'paid' => true,
+                'receipt' => $request->receipt,
+                'address' => $request->address,
+                'status' => 'process',
+            ]);
+            $menuOrders = \Cart::session($request->user_id)->getContent();
+            foreach ($menuOrders as $menu) {
+                DetailOrder::create([
+                    'order_id' => $order->id,
+                    'menu_id' => $menu['id'],
+                    'qty' => $menu['quantity'],
+                    'subtotal' => $menu['price'] * $menu['quantity']
+                ]);
+            }
+        } else if ($request->paymentMethod == 'cod') {
             $order = Order::create([
                 'user_id' => $request->user_id,
                 'street_id' => $request->street_id,
                 'total' => $request->total,
                 'cod' => true,
+                'address' => $request->address,
                 'status' => 'process',
             ]);
             $menuOrders = \Cart::session($request->user_id)->getContent();
@@ -67,6 +94,10 @@ class CheckoutController extends Controller
                 ]);
             }
         }
+        // hapus data cart
+        \Cart::session($request->user_id)->Clear();
+
+        return redirect()->route('transaction.index');
     }
 
     /**

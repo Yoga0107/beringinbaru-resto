@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OrdersExport;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Comment;
@@ -10,6 +11,7 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\DetailOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
@@ -128,7 +130,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $order->update([
             'paid' => 1,
-            'status' => 'success',
+            'status' => 'delivered',
         ]);
         return redirect()->route('orders.index')->with(['success' => 'Delivery Status change Successfully']);
     }
@@ -152,5 +154,12 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $order->delete();
         return redirect()->route('orders.index')->with(['success' => 'Orderd Deleted']);
+    }
+
+    /*************** Order Excel methods *******************/
+    // export all Order
+    public function exportAllOrder()
+    {
+        return Excel::download(new OrdersExport, 'order-collection.xlsx'); // Export collection of orders
     }
 }
