@@ -58,7 +58,7 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <a href="{{ route('checkout.index') }}" class=" btn-paypal mt-3 ml-2 d-flex align-items-center ">
-                                            <i class="fab fa-cc-paypal mr-1" style="font-size: 1.7rem"></i> PAY {{ Cart::getSubTotal() }} Rp
+                                            <i class="mr-1" style="font-size: 1.7rem"></i> PAY {{ Cart::getSubTotal() }} Rp
                                         </a>
                                     </div>
                             @endif

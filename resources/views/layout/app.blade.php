@@ -37,6 +37,8 @@
             <a href="/#menu">menu</a>
             <a href="/#review">reviews</a>
             <a href="/#review2">Add review</a>
+            <a href="{{ route('transaction.index') }}">Transaction</a>
+            {{-- <a href="/#review2">Add review</a> --}}
         </nav>
         @if (Auth()->guard()->check())
             {{-- Dakchi li4aytl3 ila kan user mconnecte --}}

@@ -16,6 +16,7 @@ use App\Http\Controllers\CostController;
 use App\Http\Controllers\JadorMenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaypalPaymentController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/orders', OrderController::class);
     // search order route
     Route::post('/orders', [OrderController::class, 'index'])->name('orders.search');
+    // update status order route
+    Route::put('/orders/updateStatus/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     // get archived prdedr route
     Route::get('ArchiveOrders', [OrderController::class, 'getArchive'])->name('orders.archive');
     Route::put('Unarchive/{id}/order', [OrderController::class, 'unarchive'])->name('order.unarchive');
@@ -113,6 +116,9 @@ Route::group(['middleware' => 'auth'], function () {
     // jador menus resources route
     Route::resource('Jador',   JadorMenuController::class);
 
+    // transaction resources route
+    Route::resource('transaction',   TransactionController::class);
+
     // cart routes
     Route::get('/Cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('Add/Cart/{product}', [CartController::class, 'addMenuToCart'])->name('cart.add');
@@ -123,6 +129,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get("/checkout", [CheckoutController::class, "index"])->name("checkout.index");
     Route::get("/checkout/street/{villageId}", [CheckoutController::class, "getStreet"])->name("checkout.street");
     Route::get("/checkout/cost/{street}", [CheckoutController::class, "getCost"])->name("checkout.cost");
+    Route::post("/checkout", [CheckoutController::class, "store"])->name("checkout.store");
 
     // GET API ALAMAT
     Route::get("/kelurahan/{idKecamatan}", [APIAddressController::class, "getKelurahan"])->name("address.kelurahan");
@@ -140,4 +147,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('file-import', [UserController::class, 'fileImport'])->name('file-import');
     Route::get('file-export', [UserController::class, 'ExportAllUser'])->name('users-export');
     Route::get('file-export/user/{id}', [UserController::class, 'ExportUser'])->name('Export-User'); // export kola user bohdo
+
+    /**** USER EXCEL ROUTE ****/
+    Route::get('file-export-order', [OrderController::class, 'exportAllOrder'])->name('orders-export');
 });

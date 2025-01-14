@@ -41,7 +41,7 @@ $(document).ready(function () {
                     let options = "";
 
                     response.forEach((s) => {
-                        options += `<option data-tokens=${s["street"]} class="fs-5 street" value=${s["street"]}>${s["street"]}</option>`;
+                        options += `<option data-tokens=${s["street"]} class="fs-5 street" value=${s["id"]}>${s["street"]}</option>`;
                     });
 
                     selectStreet.html(options);
@@ -53,6 +53,7 @@ $(document).ready(function () {
 
         selectStreet.change(function () {
             let street = $(this).val();
+            console.log(street);
 
             $.ajax({
                 url: `/checkout/cost/${street}`,
@@ -73,6 +74,15 @@ $(document).ready(function () {
                             parseInt(subtotal.text()) +
                             parseInt(response["cost"])
                         ).toLocaleString("id-ID")}`
+                    );
+
+                    let formStreet = $("#FormStreet");
+                    let formCost = $("#FormCost");
+                    let formTotal = $("#FormTotal");
+                    formStreet.val(street);
+                    formCost.val(response["id"]);
+                    formTotal.val(
+                        parseInt(subtotal.text()) + parseInt(response["cost"])
                     );
                 },
             });
