@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -12,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, CascadeSoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -47,6 +48,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // cascade delete for order
+    protected $cascadeDeletes = ['orders'];
+    protected $dates = ['deleted_at'];
+    protected $fetchMethod = 'get'; // get, cursor, lazy or chunk
+    // protected $chunkSize = 500;
 
     // is admin function bach nhded admin mn user 3adi
     public function isAdmin()

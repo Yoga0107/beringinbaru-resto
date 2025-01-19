@@ -87,7 +87,7 @@
 
                                 </div>
                                 <div class="table-responsive">
-                                    <table>
+                                    <table class="table vw-100">
                                         <thead>
                                             <tr>
                                                 <td>#ID</td>
@@ -110,7 +110,7 @@
                                             @foreach ($orders as $order)
                                                 <tr>
                                                     {{-- @dd($orders) --}}
-                                                    <td>{{ $order->id }}</td>
+                                                    <th>{{ $order->id }}</th>
                                                     <td>
                                                         {{ $order->User->name }}
                                                     </td>
@@ -130,7 +130,7 @@
                                                         @endforeach
                                                     </td>
                                                     <td>
-                                                        Rp {{ number_format($order->Street->cost->cost, 0, '', '.') }}
+                                                        Rp {{ number_format($order->Shipment->Street->cost->cost, 0, '', '.') }}
                                                     </td>
                                                     <td>Rp {{ number_format($order->total, 0, '', '.') }}</td>
                                                     <td>
@@ -148,7 +148,7 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($order->delivery)
+                                                        @if ($order->Shipment->delivery)
                                                             <i class="fa fa-check text-success"></i>
                                                         @else
                                                             <i class="fa fa-close text-danger"></i>
@@ -193,7 +193,7 @@
                                                         {{-- button delivery --}}
                                                         @if ($order->status === 'process')
                                                             <button title="Deliver To Customer" type="button" class="btn btn-pr btn-sm ml-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                                <i class="fa fa-checkout text-white"></i>
+                                                                <i class="fa fa-sign-out text-white"></i>
                                                             </button>
 
                                                             <!-- Modal -->
@@ -204,7 +204,7 @@
                                                                             <h5 class="modal-title text-dark" id="exampleModalLabel">Data Pengiriman</h5>
                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
-                                                                        <form id="{{ $order->id }}" action="{{ route('orders.update', $order->id) }}" method="POST">
+                                                                        <form id="update-{{ $order->id }}" action="{{ route('orders.update', $order->id) }}" method="POST">
                                                                             @csrf
                                                                             @method('PUT')
                                                                             <div class="modal-body text-dark text-start">
@@ -220,15 +220,17 @@
                                                                                 </p>
                                                                                 <p>Penerima: {{ $order->User->name }}</p>
                                                                                 <p class="mb-1">Alamat </p>
-                                                                                <p class="mb-0">kecamatan: {{ $order->street->district }}</p>
-                                                                                <p class="mb-0">Kelurahan: {{ $order->street->village }}</p>
-                                                                                <p class="mb-0">Jalan: {{ $order->street->street }}</p>
-                                                                                <p class="mb-0">Alamat Lengkap: {{ $order->address }}</p>
+                                                                                <p class="mb-0">kecamatan: {{ $order->shipment->Street->district }}</p>
+                                                                                <p class="mb-0">Kelurahan: {{ $order->shipment->Street->village }}</p>
+                                                                                <p class="mb-0">Jalan: {{ $order->shipment->Street->street }}</p>
+                                                                                <p class="mb-0">Alamat Lengkap: {{ $order->Shipment->address }}</p>
                                                                                 <p>Total Pembayaran: Rp {{ $order->total }}</p>
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                                <button class="btn btn-primary" onclick="event.preventDefault(); document.getElementById({{ $order->id }}).submit();">
+                                                                                <button class="btn btn-primary"
+                                                                                    onclick="event.preventDefault(); document.getElementById('update-{{ $order->id }}').submit();"
+                                                                                >
                                                                                     Delivery Now
                                                                                 </button>
                                                                             </div>
@@ -238,7 +240,7 @@
                                                             </div>
                                                         @endif
 
-                                                        @if ($order->delivery && $order->status === 'delivery')
+                                                        @if ($order->Shipment->delivery && $order->status === 'delivery')
                                                             {{-- button detail pengiriman --}}
                                                             <button title="info more" type="button" class="btn btn-warning btn-sm me-1" data-bs-toggle="modal" data-bs-target="#infomodal">
                                                                 <i class="fa fa-info text-white"></i>
@@ -253,16 +255,16 @@
                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body text-dark text-start">
-                                                                            <p>Nama Kurir: {{ $order->courier }}
+                                                                            <p>Nama Kurir: {{ $order->Shipment->courier }}
                                                                             </p>
-                                                                            <p>Estimasi Tiba: {{ $order->estimation }}
+                                                                            <p>Estimasi Tiba: {{ $order->Shipment->estimation }}
                                                                             </p>
                                                                             <p>Penerima: {{ $order->User->name }}</p>
                                                                             <p class="mb-1">Alamat </p>
-                                                                            <p class="mb-0">kecamatan: {{ $order->street->district }}</p>
-                                                                            <p class="mb-0">Kelurahan: {{ $order->street->village }}</p>
-                                                                            <p class="mb-0">Jalan: {{ $order->street->street }}</p>
-                                                                            <p class="mb-0">Alamat Lengkap: {{ $order->address }}</p>
+                                                                            <p class="mb-0">kecamatan: {{ $order->shipment->Street->district }}</p>
+                                                                            <p class="mb-0">Kelurahan: {{ $order->shipment->Street->village }}</p>
+                                                                            <p class="mb-0">Jalan: {{ $order->shipment->Street->street }}</p>
+                                                                            <p class="mb-0">Alamat Lengkap: {{ $order->Shipment->address }}</p>
                                                                             <p>Total Pembayaran: Rp {{ $order->total }}</p>
                                                                         </div>
                                                                         <div class="modal-footer">
@@ -274,12 +276,12 @@
                                                             </div>
 
                                                             {{-- button success --}}
-                                                            <form id="{{ $order->id }}" action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
+                                                            <form id="updateStatus-{{ $order->id }}" action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
                                                                 @csrf
                                                                 @method('PUT')
                                                                 <button title="Order Success"
                                                                     onclick="event.preventDefault();
-                                                            document.getElementById({{ $order->id }}).submit();"
+                                                            document.getElementById('updateStatus-{{ $order->id }}').submit();"
                                                                     class="btn  btn-success  btn-sm ml-2"
                                                                 >
                                                                     <i class="fa fa-check text-white"></i>
@@ -289,7 +291,9 @@
 
                                                         @if (empty($order->deleted_at))
                                                             {{-- Archive form --}}
-                                                            <form id="{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="post" style="margin-left: 4px !important">
+                                                            <form id="delete-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="post"
+                                                                style="margin-left: 4px !important"
+                                                            >
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button class="btn btn-danger btn-sm" title="Archive order"
@@ -305,7 +309,7 @@
                                                                     confirmButtonText: 'Yes, Archive it!'
                                                                     }).then((result) => {
                                                                     if (result.isConfirmed) {
-                                                                        document.getElementById('{{ $order->id }}').submit();
+                                                                        document.getElementById('delete-{{ $order->id }}').submit();
                                                                         Swal.fire(
                                                                         'Deleted!',
                                                                         'The Order has been Archived.',
@@ -319,13 +323,13 @@
                                                                 </button>
                                                             </form>
                                                         @else
-                                                            <form id="{{ $order->id }}" action="{{ route('order.unarchive', $order->id) }}" method="Post">
+                                                            <form id="unarchive-{{ $order->id }}" action="{{ route('order.unarchive', $order->id) }}" method="Post">
                                                                 @csrf
                                                                 @method('PUT')
                                                                 <button title="Unarchive this Order"
                                                                     onclick="event.preventDefault();
-                                                                document.getElementById({{ $order->id }}).submit();"
-                                                                    class="btn  btn-pr  btn-sm ml-2"
+                                                                document.getElementById('unarchive-{{ $order->id }}').submit();"
+                                                                    class="btn  btn-pr  btn-sm ms-1"
                                                                 >
                                                                     <i class="fa-solid fa-diagram-next text-white"></i>
                                                                 </button>

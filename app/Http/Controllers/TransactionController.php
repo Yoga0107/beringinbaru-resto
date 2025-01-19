@@ -73,6 +73,7 @@ class TransactionController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->update([
+            'paid' => 1,
             'status' => 'delivered',
         ]);
         return redirect()->route('transaction.index');

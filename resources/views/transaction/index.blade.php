@@ -47,13 +47,13 @@
                         @endforeach
                     </td>
                     <td>
-                        <h2>{{ number_format($item->street->cost->cost, 0, '', '.') }}</h2>
+                        <h2>{{ number_format($item->Shipment->street->cost->cost, 0, '', '.') }}</h2>
                     </td>
                     <td>
-                        <h2>{{ $item->courier }}</h2>
+                        <h2>{{ $item->Shipment->courier }}</h2>
                     </td>
                     <td>
-                        <h2>{{ $item->estimation }}</h2>
+                        <h2>{{ $item->Shipment->estimation }}</h2>
                     </td>
                     <td>
                         <h2>{{ $item->status }}</h2>

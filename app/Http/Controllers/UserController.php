@@ -123,7 +123,7 @@ class UserController extends Controller
             'ville' => $request->ville,
         ]);
         return redirect()->route('user.login')->with([
-            'success' => 'Compte Created '
+            'success' => 'User Created'
         ]);
     }
 

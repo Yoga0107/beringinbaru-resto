@@ -13,17 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('detail_orders', function (Blueprint $table) {
+        Schema::create('shipments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id');
-            $table->unsignedBigInteger('menu_id');
-            $table->string('qty');
-            $table->string('subtotal');
+            $table->unsignedBigInteger('street_id');
+            $table->string('address')->nullable();
+            $table->boolean('delivery')->default(0);
+            $table->string('courier')->nullable();
+            $table->time('estimation')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign("order_id")->references("id")->on("orders")->onDelete("cascade");
-            $table->foreign("menu_id")->references("id")->on("menus")->onDelete("cascade");
+            $table->foreign("street_id")->references("id")->on("streets")->onDelete("cascade");
         });
     }
 
@@ -34,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_order');
+        Schema::dropIfExists('shipments');
     }
 };

@@ -12,15 +12,10 @@ class Order extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'user_id',
-        'street_id',
         'total',
         'paid',
-        'delivery',
-        'courier',
-        'estimation',
         'cod',
         'receipt',
-        'address',
         'status',
     ];
     // public function detailOrders()
@@ -42,7 +37,12 @@ class Order extends Model
     // }
     public function user()
     {
-        return $this->belongsTo(user::class);
+        return $this->belongsTo(user::class)->withTrashed();
+    }
+
+    public function shipment()
+    {
+        return $this->hasOne(Shipment::class);
     }
 
     public function street()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cost;
 use App\Models\DetailOrder;
 use App\Models\Order;
+use App\Models\Shipment;
 use App\Models\Street;
 use Darryldecode\Cart\Cart;
 use Illuminate\Http\Request;
@@ -66,15 +67,8 @@ class CheckoutController extends Controller
                 'address' => $request->address,
                 'status' => 'process',
             ]);
-            $menuOrders = \Cart::session($request->user_id)->getContent();
-            foreach ($menuOrders as $menu) {
-                DetailOrder::create([
-                    'order_id' => $order->id,
-                    'menu_id' => $menu['id'],
-                    'qty' => $menu['quantity'],
-                    'subtotal' => $menu['price'] * $menu['quantity']
-                ]);
-            }
+            $this->storeShipment($order->id, $request->street_id, $request->address);
+            $this->storeDetailOrder($request->user_id, $order->id);
         } else if ($request->paymentMethod == 'cod') {
             $order = Order::create([
                 'user_id' => $request->user_id,
@@ -84,15 +78,8 @@ class CheckoutController extends Controller
                 'address' => $request->address,
                 'status' => 'process',
             ]);
-            $menuOrders = \Cart::session($request->user_id)->getContent();
-            foreach ($menuOrders as $menu) {
-                DetailOrder::create([
-                    'order_id' => $order->id,
-                    'menu_id' => $menu['id'],
-                    'qty' => $menu['quantity'],
-                    'subtotal' => $menu['price'] * $menu['quantity']
-                ]);
-            }
+            $this->storeShipment($order->id, $request->street_id, $request->address);
+            $this->storeDetailOrder($request->user_id, $order->id);
         }
         // hapus data cart
         \Cart::session($request->user_id)->Clear();
@@ -143,6 +130,28 @@ class CheckoutController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function storeShipment($orderId, $streetId, $address)
+    {
+        Shipment::create([
+            'order_id' => $orderId,
+            'street_id' => $streetId,
+            'address' => $address,
+        ]);
+    }
+
+    private function storeDetailOrder($userId, $orderId)
+    {
+        $menuOrders = \Cart::session($userId)->getContent();
+        foreach ($menuOrders as $menu) {
+            DetailOrder::create([
+                'order_id' => $orderId,
+                'menu_id' => $menu['id'],
+                'qty' => $menu['quantity'],
+                'subtotal' => $menu['price'] * $menu['quantity']
+            ]);
+        }
     }
 
     public function getStreet($villageId)

@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\DetailOrder;
+use App\Models\Shipment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -117,11 +118,15 @@ class OrderController extends Controller
 
         $order = Order::findOrFail($id);
         $order->update([
-            'delivery' => 1,
-            'courier' => $request->input_courier,
-            'estimation' => $request->input_estimation,
             'status' => 'delivery',
         ]);
+        Shipment::where('order_id', $order->id)
+            ->update([
+                'delivery' => 1,
+                'courier' => $request->input_courier,
+                'estimation' => $request->input_estimation,
+            ]);
+
         return redirect()->route('orders.index')->with(['success' => 'Delivery Status change Successfully']);
     }
 
@@ -138,6 +143,7 @@ class OrderController extends Controller
     public function unarchive($id)
     {
         $order = Order::where('id', $id)->withTrashed()->first();
+        // $order->update([]);
         $order->deleted_at = null;
         $order->save();
         return redirect()->route('orders.index')->with(['success' => 'Orderd Unarchived']);

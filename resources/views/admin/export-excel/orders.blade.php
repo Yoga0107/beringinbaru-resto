@@ -42,7 +42,7 @@
                     @endforeach
                 </td>
                 <td>
-                    {{ $order->Street->cost->cost }}
+                    {{ $order->Shipment->Street->cost->cost }}
                 </td>
                 <td>{{ $order->total }}</td>
                 <td>
@@ -60,7 +60,7 @@
                     @endif
                 </td>
                 <td>
-                    @if ($order->delivery)
+                    @if ($order->Shipment->delivery)
                         yes
                     @else
                         no
