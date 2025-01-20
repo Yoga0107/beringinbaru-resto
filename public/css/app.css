@@ -580,6 +580,7 @@ body {
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
+    text-align: center;
 }
 .status.pending {
     padding: 2px 4px;
@@ -588,6 +589,7 @@ body {
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
+    text-align: center;
 }
 .status.return {
     padding: 2px 4px;
@@ -596,6 +598,7 @@ body {
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
+    text-align: center;
 }
 .status.inProgress {
     padding: 2px 4px;
@@ -604,6 +607,7 @@ body {
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
+    text-align: center;
 }
 
 /****************** recentCustomers style *********/

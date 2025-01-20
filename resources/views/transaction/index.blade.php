@@ -1,5 +1,19 @@
 @extends('layout.app')
 
+@php
+    function statusTag($status)
+    {
+        switch ($status) {
+            case 'process':
+                return 'pending';
+            case 'delivery':
+                return 'inProgress';
+            case 'delivered':
+                return 'delivered';
+        }
+    }
+@endphp
+
 @section('content')
     <!-- cart item -->
     @foreach ($transactions as $item)
@@ -8,11 +22,12 @@
                 <tr>
                     <th>#Order ID</th>
                     <th>Menu</th>
-                    <th>qty</th>
-                    <th>Price</th>
+                    {{-- <th>qty</th> --}}
+                    {{-- <th>Price</th> --}}
                     <th>Cost</th>
                     <th>Courier</th>
                     <th>Estimation</th>
+                    <th>Payment</th>
                     <th>Status</th>
                     <th>total</th>
                     <th>Action</th>
@@ -29,34 +44,55 @@
                                 <div>
                                     <h3>{{ $detail->Menu->title }}</h3>
                                     <small>{{ $detail->Menu->description }}</small>
+                                    <h5>x{{ $detail->qty }}</h5>
+                                    <div>
+                                        <h3 style="margin-top: 20px">Rp{{ number_format($detail->Menu->pric, 0, '', '.') }}</h3>
+                                    </div>
+
                                 </div>
                             </div>
                             <br>
                         @endforeach
                     </td>
-                    <td>
+                    {{-- <td>
                         @foreach ($item->detailOrder as $detail)
                             <h2>{{ $detail->qty }}</h2>
                             <br>
                         @endforeach
-                    </td>
-                    <td>
+                    </td> --}}
+                    {{-- <td>
                         @foreach ($item->detailOrder as $detail)
                             <h2>{{ number_format($detail->Menu->pric, 0, '', '.') }}</h2>
                             <br>
                         @endforeach
+                    </td> --}}
+                    <td>
+                        <h2>Rp{{ number_format($item->Shipment->street->cost->cost, 0, '', '.') }}</h2>
                     </td>
                     <td>
-                        <h2>{{ number_format($item->Shipment->street->cost->cost, 0, '', '.') }}</h2>
+                        @if ($item->Shipment->courier)
+                            <h2>{{ $item->Shipment->courier }}</h2>
+                        @else
+                            <h2>-</h2>
+                        @endif
                     </td>
                     <td>
-                        <h2>{{ $item->Shipment->courier }}</h2>
+                        @if ($item->Shipment->estimation)
+                            <h2>{{ $item->Shipment->estimation }}</h2>
+                        @else
+                            <h2>-</h2>
+                        @endif
                     </td>
                     <td>
-                        <h2>{{ $item->Shipment->estimation }}</h2>
+                        @if ($item->cod)
+                            <h2>COD</h2>
+                        @else
+                            <h2>E-Transfer</h2>
+                        @endif
                     </td>
                     <td>
-                        <h2>{{ $item->status }}</h2>
+                        <div class="status {{ statusTag($item->status) }}">{{ $item->status }}</div>
+                        {{-- <h2>{{ $item->status }}</h2> --}}
                     </td>
                     <td class="price">Rp {{ number_format($item->total, 0, '', '.') }}</td>
                     <td>

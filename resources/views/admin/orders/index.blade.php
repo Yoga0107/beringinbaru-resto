@@ -1,6 +1,5 @@
 @extends('layout.sidebar')
 
-
 @section('search')
     {{-- section   shearch   --}}
     <div class="search">
@@ -19,7 +18,21 @@
     </div>
 @endsection
 
+
 @section('content')
+    @php
+        function statusTagAdmin($status)
+        {
+            switch ($status) {
+                case 'process':
+                    return 'pending';
+                case 'delivery':
+                    return 'inProgress';
+                case 'delivered':
+                    return 'delivered';
+            }
+        }
+    @endphp
     <!-- Cards -->
     <div class="CardBox">
         <div class="Card">
@@ -155,7 +168,7 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        {{ $order->status }}
+                                                        <div class="status {{ statusTagAdmin($order->status) }}">{{ $order->status }}</div>
                                                     </td>
                                                     <td>
                                                         @if ($order->receipt)

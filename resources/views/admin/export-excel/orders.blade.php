@@ -7,7 +7,7 @@
             <td>Quantity</td>
             <td>Price</td>
             <td>Cost</td>
-            <td>Total</td>
+            <td>Subtotal</td>
             <td>Payment Method</td>
             <td>Paid</td>
             <td>Delivery</td>
@@ -19,67 +19,82 @@
     </thead>
 
     <tbody>
-        @foreach ($orders as $order)
+        @foreach ($detailOrders as $detail)
             <tr>
                 {{-- @dd($orders) --}}
-                <td>{{ $order->id }}</td>
+                <td>{{ $detail->Order->id }}</td>
                 <td>
-                    {{ $order->User->name }}
+                    {{ $detail->Order->User->name }}
                 </td>
-                <td>
+                {{-- <td>
                     @foreach ($order->detailOrder as $detail)
                         {{ $detail->menu->title }}<br>
                     @endforeach
-                </td>
-                <td>
+                </td> --}}
+                {{-- <td>
                     @foreach ($order->detailOrder as $detail)
                         {{ $detail->qty }}<br>
                     @endforeach
-                </td>
-                <td>
+                </td> --}}
+                {{-- <td>
                     @foreach ($order->detailOrder as $detail)
                         {{ $detail->menu->pric }}<br>
                     @endforeach
+                </td> --}}
+                <td>
+                    {{ $detail->Menu->title }}<br>
                 </td>
                 <td>
-                    {{ $order->Shipment->Street->cost->cost }}
+                    {{ $detail->qty }}<br>
                 </td>
-                <td>{{ $order->total }}</td>
                 <td>
-                    @if ($order->cod)
+                    {{ $detail->Menu->pric }}<br>
+                </td>
+                <td>
+                    {{ $detail->Order->Shipment->Street->cost->cost }}
+                </td>
+                <td>{{ $detail->subtotal }}</td>
+                <td>
+                    @if ($detail->Order->cod)
                         COD
                     @else
                         E-Transfer
                     @endif
                 </td>
                 <td>
-                    @if ($order->paid)
+                    @if ($detail->Order->paid)
                         yes
                     @else
                         no
                     @endif
                 </td>
                 <td>
-                    @if ($order->Shipment->delivery)
+                    @if ($detail->Order->Shipment->delivery)
                         yes
                     @else
                         no
                     @endif
                 </td>
                 <td>
-                    {{ $order->status }}
+                    {{ $detail->Order->status }}
                 </td>
                 <td>
-                    {{ $order->created_at }}
+                    {{ $detail->Order->created_at }}
                 </td>
                 <td>
-                    {{ $order->updated_at }}
+                    {{ $detail->Order->updated_at }}
                 </td>
                 <td>
-                    {{ $order->deleted_at }}
+                    {{ $detail->Order->deleted_at }}
                 </td>
             </tr>
         @endforeach
     </tbody>
+    <tfoot>
+        <tr>
+            <th scope="row" colspan="6">TOTAL</th>
+            <td>{{ $total }}</td>
+        </tr>
+    </tfoot>
 
 </table>

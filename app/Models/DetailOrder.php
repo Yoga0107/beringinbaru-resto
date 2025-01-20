@@ -16,8 +16,13 @@ class DetailOrder extends Model
         'subtotal'
     ];
 
-    public function menu()
+    public function Menu()
     {
         return $this->belongsTo(Menu::class, 'menu_id');
+    }
+
+    public function Order()
+    {
+        return $this->belongsTo(Order::class, 'order_id');
     }
 }
