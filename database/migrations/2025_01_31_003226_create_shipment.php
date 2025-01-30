@@ -17,15 +17,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('street_id');
+            $table->unsignedBigInteger('courier_id')->nullable();
             $table->string('address')->nullable();
             $table->boolean('delivery')->default(0);
-            $table->string('courier')->nullable();
             $table->time('estimation')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign("order_id")->references("id")->on("orders")->onDelete("cascade");
             $table->foreign("street_id")->references("id")->on("streets")->onDelete("cascade");
+            $table->foreign("courier_id")->references("id")->on("couriers")->onDelete("cascade");
         });
     }
 

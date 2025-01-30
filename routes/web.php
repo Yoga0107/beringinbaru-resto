@@ -13,6 +13,7 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CostController;
+use App\Http\Controllers\CourierController;
 use App\Http\Controllers\JadorMenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaypalPaymentController;
@@ -84,6 +85,9 @@ Route::group(['middleware' => 'auth'], function () {
     // Unarchive review route
     Route::put('Unarchive/{id}/review', [CommentController::class, 'Unarchive'])->name('review.unarchive');
 
+    /*************** Couriers *****************************/
+    Route::resource('/couriers', CourierController::class);
+
     /*************** shipping *****************************/
     Route::resource('/street', StreetController::class);
 
@@ -149,5 +153,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('file-export/user/{id}', [UserController::class, 'ExportUser'])->name('Export-User'); // export kola user bohdo
 
     /**** USER EXCEL ROUTE ****/
-    Route::get('file-export-order', [OrderController::class, 'exportAllOrder'])->name('orders-export');
+    Route::get('file-export-order', [OrderController::class, 'exportAllOrderPDF'])->name('orders-export');
 });

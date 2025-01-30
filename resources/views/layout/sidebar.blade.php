@@ -72,6 +72,12 @@
                     <span class="title">Orders</span>
                 </a>
             </li>
+            <li>
+                <a href="/couriers">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <span class="title">Couriers</span>
+                </a>
+            </li>
             <li class="custom-dropdown">
                 <a href="#">
                     <span class="icon"><ion-icon name="pin"></ion-icon></span>

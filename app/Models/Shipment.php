@@ -22,4 +22,9 @@ class Shipment extends Model
     {
         return $this->belongsTo(Street::class);
     }
+
+    public function Courier()
+    {
+        return $this->belongsTo(Courier::class);
+    }
 }

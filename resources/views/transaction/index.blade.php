@@ -1,19 +1,5 @@
 @extends('layout.app')
 
-@php
-    function statusTag($status)
-    {
-        switch ($status) {
-            case 'process':
-                return 'pending';
-            case 'delivery':
-                return 'inProgress';
-            case 'delivered':
-                return 'delivered';
-        }
-    }
-@endphp
-
 @section('content')
     <!-- cart item -->
     @foreach ($transactions as $item)
@@ -70,8 +56,8 @@
                         <h2>Rp{{ number_format($item->Shipment->street->cost->cost, 0, '', '.') }}</h2>
                     </td>
                     <td>
-                        @if ($item->Shipment->courier)
-                            <h2>{{ $item->Shipment->courier }}</h2>
+                        @if ($item->Shipment->courier_id)
+                            <h2>{{ $item->Shipment->Courier->name }}</h2>
                         @else
                             <h2>-</h2>
                         @endif
@@ -91,14 +77,28 @@
                         @endif
                     </td>
                     <td>
-                        <div class="status {{ statusTag($item->status) }}">{{ $item->status }}</div>
+                        <div
+                            class="status 
+                            @switch($item->status)
+                                @case('process')
+                                    pending
+                                    @break
+                                @case('delivery')
+                                    inProgress
+                                    @break
+                                @case('delivered')
+                                    delivered
+                                    @break
+                            @endswitch
+                            ">
+                            {{ $item->status }}</div>
                         {{-- <h2>{{ $item->status }}</h2> --}}
                     </td>
                     <td class="price">Rp {{ number_format($item->total, 0, '', '.') }}</td>
                     <td>
                         @if ($item->status === 'delivery')
                             <div>
-                                <a href="https://wa.me/62xxxxxxxxx">
+                                <a href="https://wa.me/6281361388036">
                                     <button type="submit" id="btn" class="btn btn-danger mt-5">Complain</button>
                                 </a>
                                 <form action="/transaction/{{ $item->id }}" method="post">

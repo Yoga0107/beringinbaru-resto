@@ -20,19 +20,6 @@
 
 
 @section('content')
-    @php
-        function statusTagAdmin($status)
-        {
-            switch ($status) {
-                case 'process':
-                    return 'pending';
-                case 'delivery':
-                    return 'inProgress';
-                case 'delivered':
-                    return 'delivered';
-            }
-        }
-    @endphp
     <!-- Cards -->
     <div class="CardBox">
         <div class="Card">
@@ -168,7 +155,21 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <div class="status {{ statusTagAdmin($order->status) }}">{{ $order->status }}</div>
+                                                        <div
+                                                            class="status 
+                                                        @switch($order->status)
+                                                            @case('process')
+                                                                pending
+                                                                @break
+                                                            @case('delivery')
+                                                                inProgress
+                                                                @break
+                                                            @case('delivered')
+                                                                delivered
+                                                                @break
+                                                        @endswitch
+                                                        ">
+                                                            {{ $order->status }}</div>
                                                     </td>
                                                     <td>
                                                         @if ($order->receipt)
@@ -221,10 +222,14 @@
                                                                             @csrf
                                                                             @method('PUT')
                                                                             <div class="modal-body text-dark text-start">
-                                                                                <p>Nama Kurir:
-                                                                                    <input type="text" class="form-control d-inline w-50" id="inputCourir" name="input_courier"
-                                                                                        aria-describedby="courier"
-                                                                                    >
+                                                                                <p>Kurir:
+                                                                                    <select class="form-select d-inline w-50" aria-label="Default select example" name="input_courier">
+                                                                                        <option value="" disabled="disabled" selected>Open this select Courier</option>
+                                                                                        @foreach ($couriers as $courier)
+                                                                                            <option value="{{ $courier->id }}">{{ $courier->name }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+
                                                                                 </p>
                                                                                 <p>Estimasi Tiba:
                                                                                     <input type="time" class="form-control d-inline w-50" id="inputEstimation" name="input_estimation"
@@ -268,7 +273,7 @@
                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body text-dark text-start">
-                                                                            <p>Nama Kurir: {{ $order->Shipment->courier }}
+                                                                            <p>Nama Kurir: {{ $order->Shipment->Courier->name }}
                                                                             </p>
                                                                             <p>Estimasi Tiba: {{ $order->Shipment->estimation }}
                                                                             </p>

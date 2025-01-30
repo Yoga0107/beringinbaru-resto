@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Exports\OrdersExport;
+use App\Exports\OrdersExportExcel;
+use App\Exports\OrdersExportPDF;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Comment;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Courier;
 use App\Models\DetailOrder;
 use App\Models\Shipment;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -46,6 +50,7 @@ class OrderController extends Controller
                 'sales' => Order::where('paid', 1)->count(),
                 'ArchivedOrders' => Order::whereNotNull('deleted_at')->withTrashed()->count(),
                 'Earning' => Order::sum('total'),
+                'couriers' => Courier::all(),
             ]);
         }
     }
@@ -123,7 +128,7 @@ class OrderController extends Controller
         Shipment::where('order_id', $order->id)
             ->update([
                 'delivery' => 1,
-                'courier' => $request->input_courier,
+                'courier_id' => $request->input_courier,
                 'estimation' => $request->input_estimation,
             ]);
 
@@ -163,9 +168,22 @@ class OrderController extends Controller
     }
 
     /*************** Order Excel methods *******************/
-    // export all Order
-    public function exportAllOrder()
+    // export all Order Excel
+    public function exportAllOrderExcel()
     {
-        return Excel::download(new OrdersExport, 'order-collection.xlsx'); // Export collection of orders
+        return Excel::download(new OrdersExportExcel, 'order-collection.xlsx'); // Export collection of orders
+    }
+
+    // export all Order PDF
+    public function exportAllOrderPDF()
+    {
+        $data = [
+            'orders' => Order::all(),
+            'detailOrders' => DetailOrder::all(),
+            'total' => Order::sum('total'),
+        ];
+        $pdf = Pdf::loadView('admin.export.pdf.orders', $data);
+        return $pdf->download('invoice.pdf');
+        // return Excel::download(new OrdersExportPDF, 'order-collection.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }
